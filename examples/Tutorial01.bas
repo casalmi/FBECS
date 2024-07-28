@@ -1,7 +1,8 @@
 
 #include "fbgfx.bi"
 
-#libpath "../src/FBECS/"
+'I haven't compiled a linux library yet
+#libpath "../src/lib/windows64/"
 #inclib "FBECS"
 #include "../src/FBECS/FBECS.bi"
 
@@ -17,14 +18,16 @@
 'RECOMMENDATION: Use the following suffix naming scheme:
 ' ...Component: When the component is not special in any way
 ' ...Resource: When the component is meant to be accessed by
-'              systems, but not attached to entities
+'              systems, but not attached to entities (referred to as a "singleton")
 ' ...Hook: When the component is accessed by systems, but is
 '          updated outside the ECS ecosystem (outside systems/event handlers)
 ' ...CEvent: When the component is meant to be attached to an
 '            entity only to be updated and promptly removed.
-'            These should not be favored over proper events.
+'            You should favor using actual Events instead of these if possible.
 ' ...Tag: When the component does not have a Type.
-' ...Event: When the event is an actual FBECS.EventType.
+' ...Event: When the event is an actual FBECS.EventType.  I do not
+'           make a distinction between events with and without a type, though
+'           they are handled differently in the ECS. TODO: explain difference
 type ECS_TYPE(PositionComponent)
 	dim as single x,y
 end type
@@ -270,7 +273,7 @@ ScreenSet 1,0
 'Enqueue some spawn pawn events
 scope
 	dim spawnEvent as ECS_TYPE(SpawnPawnEvent)
-	for i as integer = 0 to 9
+	for i as integer = 0 to 99
 		spawnEvent.x = rnd() * 750
 		spawnEvent.y = rnd() * 550
 		
